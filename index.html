@@ -54,12 +54,19 @@
         <h2>GAME OVER</h2>
         <p class="score-text" id="gameOverScore"></p>
         <div class="action-buttons">
-          <button class="restart-btn" onclick="restartQuiz()">
-            Play Again
-          </button>
-          <a href="#" class="tweet-btn" id="gameOverTweet" target="_blank"
-            >Tweet Your Score</a
-          >
+          <div class="action-buttons-arrangement">
+            <button class="restart-btn" onclick="restartQuiz()">
+              Play Again
+            </button>
+            <a href="#" class="tweet-btn" id="gameOverTweet" target="_blank"
+              >Tweet Your Score</a
+            >
+          </div>
+
+          <div class="screenshot-text">
+            PRO TIP!!! Screenshot your score and attach the picture to your
+            tweet for authentication
+          </div>
         </div>
       </div>
 
@@ -69,9 +76,16 @@
         <p class="score-text">You're a top Monad expert! 🎉</p>
         <p class="score-text" id="successScore"></p>
         <div class="action-buttons">
-          <a href="#" class="tweet-btn" id="successTweet" target="_blank"
-            >Tweet Your Achievement</a
-          >
+          <div class="action-buttons-arrangement">
+            <a href="#" class="tweet-btn" id="successTweet" target="_blank"
+              >Tweet Your Achievement</a
+            >
+          </div>
+
+          <div class="screenshot-text">
+            PRO TIP!!! Screenshot your score and attach the picture to your
+            tweet for authentication
+          </div>
         </div>
         <p class="comeback-text">Come back another time for more challenges!</p>
       </div>

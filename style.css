@@ -262,11 +262,17 @@ body {
 
 .action-buttons {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
-
+.action-buttons-arrangement {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
 .restart-btn,
 .tweet-btn {
   padding: 1rem 2rem;
@@ -356,4 +362,10 @@ body {
     text-align: center;
     margin-top: 1rem;
   }
+}
+.screenshot-text {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #fff;
+  opacity: 1;
 }
