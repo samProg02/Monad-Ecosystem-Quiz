@@ -338,11 +338,11 @@ const questions = [
     options: ["monad.xyz", "gmonad.xyz", "gmonads.com", "monads.com"],
     answer: "gmonads.com",
   },
-  {
-    question: "What's the reward currency on Kizzy?",
-    options: ["Elo", "Purple K", "USDT", "$MON"],
-    answer: "Purple K",
-  },
+  // {
+  //   question: "What's the reward currency on Kizzy?",
+  //   options: ["Elo", "Purple K", "USDT", "$MON"],
+  //   answer: "Purple K",
+  // },
   {
     question: "Who composed the Chogstarr Song?",
     options: ["Drake", "Preballin", "BadboyFoxy", "Dreiki"],
@@ -354,10 +354,20 @@ const questions = [
     answer: "5000",
   },
   {
-    question: "Which wallet supports Monad from day one?",
-    options: ["OKX wallet", "Rabby", "Phantom", "Metamask"],
-    answer: "Phantom",
+    question: "Who uses Rubik cube to imitate NFTs on Monad?",
+    options: ["Da Gabriel", "Adeleke", "Ipadee", "Cheese"],
+    answer: "Da Gabriel",
   },
+  {
+    question: "Who is the leader of Kizzy cult?",
+    options: ["Da Gabriel", "Adeleke", "Ipadee", "Cheese"],
+    answer: "Ipadee",
+  },
+  // {
+  //   question: "Which wallet supports Monad from day one?",
+  //   options: ["OKX wallet", "Rabby", "Phantom", "Metamask"],
+  //   answer: "Phantom",
+  // },
   //  {
   //   question: "Who Temu'd the Retard NFTs?",
   //   options: ["Gleader", "Bigchog", "Berzan", "Crypto Mike"],
