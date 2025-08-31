@@ -485,16 +485,19 @@ const questions = [
   // },
 ];
 
-// Game Variables
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let wrongAnswers = 0;
 let points = 0;
 let timer;
-let timeLeft = 5;
+let timeLeft = 10;
 let shuffledQuestions = [];
 let isQuizActive = false;
 let userAnswers = []; // Track all user answers for scorecard
+
+// New variables for pause/resume functionality
+let isTimerPaused = false;
+let timerInterval = null;
 
 // Utility Functions
 function shuffleArray(array) {
@@ -511,6 +514,77 @@ function shuffleQuestionOptions(question) {
     ...question,
     options: shuffleArray(question.options),
   };
+}
+
+// Visibility change event listener for pause/resume functionality
+document.addEventListener("visibilitychange", function () {
+  if (isQuizActive && timerInterval) {
+    if (document.hidden) {
+      // Tab is hidden/minimized - pause timer
+      pauseTimer();
+    } else {
+      // Tab is visible again - resume timer
+      resumeTimer();
+    }
+  }
+});
+
+// Window focus/blur events as additional safety (some browsers might not fire visibilitychange)
+window.addEventListener("blur", function () {
+  if (isQuizActive && timerInterval && !isTimerPaused) {
+    pauseTimer();
+  }
+});
+
+window.addEventListener("focus", function () {
+  if (isQuizActive && timerInterval && isTimerPaused) {
+    resumeTimer();
+  }
+});
+
+function pauseTimer() {
+  if (timerInterval && !isTimerPaused) {
+    clearInterval(timerInterval);
+    isTimerPaused = true;
+    // Visual indicator that timer is paused
+    const timerElement = document.getElementById("timer");
+    if (timerElement) {
+      timerElement.style.opacity = "0.5";
+      timerElement.textContent = `${timeLeft} (Paused)`;
+    }
+  }
+}
+
+function resumeTimer() {
+  if (isTimerPaused && isQuizActive) {
+    isTimerPaused = false;
+    // Resume visual state
+    const timerElement = document.getElementById("timer");
+    if (timerElement) {
+      timerElement.style.opacity = "1";
+      timerElement.textContent = timeLeft;
+    }
+    // Restart the timer interval
+    startTimerInterval();
+  }
+}
+
+function startTimerInterval() {
+  timerInterval = setInterval(() => {
+    if (!isTimerPaused) {
+      timeLeft--;
+      document.getElementById("timer").textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        if (isQuizActive) {
+          // Time up - treat as wrong answer
+          selectAnswer(null); // null indicates time ran out
+        }
+      }
+    }
+  }, 1000);
 }
 
 // Quiz Functions
@@ -593,27 +667,34 @@ function updateProgressBar() {
 }
 
 function startTimer() {
-  timeLeft = 5;
+  // Clear any existing timer
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+
+  timeLeft = 10;
+  isTimerPaused = false;
   document.getElementById("timer").textContent = timeLeft;
+  document.getElementById("timer").style.opacity = "1";
 
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = timeLeft;
+  // Use the new timer interval function
+  startTimerInterval();
 
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      if (isQuizActive) {
-        // Time up - treat as wrong answer
-        selectAnswer(null); // null indicates time ran out
-      }
-    }
-  }, 1000);
+  // Keep the old timer variable for compatibility
+  timer = timerInterval;
 }
 
 function selectAnswer(selectedOption) {
   if (!isQuizActive) return;
 
+  // Clear timer properly
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
   clearInterval(timer);
+  isTimerPaused = false;
+
   const question = shuffledQuestions[currentQuestionIndex];
   const buttons = document.querySelectorAll(".option-btn");
 
@@ -669,6 +750,14 @@ function selectAnswer(selectedOption) {
 
 function showFinalResults() {
   isQuizActive = false;
+  // Clear any remaining timers
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  clearInterval(timer);
+  isTimerPaused = false;
+
   document.getElementById("quizScreen").style.display = "none";
 
   const totalQuestions = shuffledQuestions.length;
@@ -685,7 +774,7 @@ function showFinalResults() {
     document.getElementById("successScore").innerHTML = scoreHTML;
 
     const tweetBtn = document.getElementById("successTweet");
-    const tweetText = `🎉 MONAD CORE COMMUNITY MEMBER! I achieved a perfect score of ${points} points (${correctAnswers}/${totalQuestions}) on the Monad Ecosystem Knowledge Quiz by samson.nad! 🚀 Take yours now on monad-eco-quiz.netlify.app`;
+    const tweetText = `🎉 MONAD CORE COMMUNITY MEMBER! I achieved a perfect score of ${points} points (${correctAnswers}/${totalQuestions}) on the Monad Ecosystem Knowledge Quiz by @bolarindesamso1 🚀 Take yours now on monad-eco-quiz.netlify.app`;
     tweetBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       tweetText
     )}`;
@@ -707,7 +796,7 @@ function showFinalResults() {
     document.getElementById("gameOverScore").innerHTML = scoreHTML;
 
     const tweetBtn = document.getElementById("gameOverTweet");
-    const tweetText = `I scored ${points} points (${correctAnswers}/${totalQuestions}) on the Monad Ecosystem Knowledge Quiz by samson.nad Think you can beat my score? Take yours now on monad-eco-quiz.netlify.app`;
+    const tweetText = `I scored ${points} points (${correctAnswers}/${totalQuestions}) on the Monad Ecosystem Knowledge Quiz by @bolarindesamso1 Think you can beat my score? Take yours now on monad-eco-quiz.netlify.app`;
     tweetBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       tweetText
     )}`;
@@ -842,10 +931,35 @@ function restartQuiz() {
 
   // Reset all states (no persistent high scores)
   clearInterval(timer);
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
   currentQuestionIndex = 0;
   correctAnswers = 0;
   wrongAnswers = 0;
   points = 0;
   userAnswers = [];
   isQuizActive = false;
+  isTimerPaused = false;
+}
+
+function startTimer() {
+  // Clear any existing timer
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+  clearInterval(timer);
+
+  timeLeft = 10;
+  isTimerPaused = false;
+  const timerElement = document.getElementById("timer");
+  timerElement.textContent = timeLeft;
+  timerElement.style.opacity = "1";
+
+  // Use the new timer interval function
+  startTimerInterval();
+
+  // Keep the old timer variable for compatibility
+  timer = timerInterval;
 }
