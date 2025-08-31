@@ -324,12 +324,12 @@ const questions = [
     answer: "161",
   },
   {
-    question: "How many cities are the validators in?",
+    question: "How many cities are the validators of testnet-2 in?",
     options: ["50", "64", "20", "70"],
     answer: "64",
   },
   {
-    question: "How many countries are the validators in?",
+    question: "How many countries are the validators of testnet-2 in?",
     options: ["33", "34", "17", "20"],
     answer: "33",
   },
