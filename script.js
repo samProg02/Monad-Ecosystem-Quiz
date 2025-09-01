@@ -210,8 +210,8 @@ const questions = [
   },
   {
     question: "Who is the founder of Kuru",
-    options: ["Smol", "Dreiki", "Medusa", "KB"],
-    answer: "KB",
+    options: ["Smol", "Dreiki", "Fravashi", "KB"],
+    answer: "Fravashi",
   },
   {
     question: "Who is the NFT lead on the Monad team",
@@ -338,16 +338,16 @@ const questions = [
     options: ["monad.xyz", "gmonad.xyz", "gmonads.com", "monads.com"],
     answer: "gmonads.com",
   },
-  // {
-  //   question: "What's the reward currency on Kizzy?",
-  //   options: ["Elo", "Purple K", "USDT", "$MON"],
-  //   answer: "Purple K",
-  // },
   {
-    question: "Who composed the Chogstarr Song?",
-    options: ["Drake", "Preballin", "BadboyFoxy", "Dreiki"],
-    answer: "BadboyFoxy",
+    question: "What's the reward currency on Kizzy?",
+    options: ["Naira", "Purple K", "USDT", "$MON"],
+    answer: "Purple K",
   },
+  // {
+  //   question: "Who composed the Chogstarr Song?",
+  //   options: ["Drake", "Preballin", "BadboyFoxy", "Dreiki"],
+  //   answer: "BadboyFoxy",
+  // },
   {
     question: "How many people received the Monad card at first?",
     options: ["2500", "5000", "1000", "3000"],
