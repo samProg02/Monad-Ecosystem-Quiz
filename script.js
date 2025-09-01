@@ -17,7 +17,7 @@ const questions = [
   },
   {
     question: "What is Monad's block time target?",
-    options: ["1s", "2s", "200ms", "500ms"],
+    options: ["1s", "2s", "400ms", "500ms"],
     answer: "200ms",
   },
   {
